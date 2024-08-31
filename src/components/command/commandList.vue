@@ -2,18 +2,17 @@
   <div ref="listRef"
        infinite-scroll-distance="100"
        v-infinite-scroll="loadMore"
-       class="infinite-list"
-       style="overflow: auto">
+       class="infinite-list">
 
-      <div v-for="(suggestion, index) in suggestions"
-           @click="onSuggestionClick(index)"
-           class="infinite-list-item"
-           v-show="suggestion.title">
+    <div v-for="(suggestion, index) in suggestions"
+         @click="onSuggestionClick(index)"
+         class="infinite-list-item"
+         v-show="suggestion.title">
 
-        <div class="command_text">{{ suggestion.title }}</div>
-        <div class="command_desc">{{ suggestion.description }}</div>
+      <div class="command_text">{{ suggestion.title }}</div>
+      <div class="command_desc">{{ suggestion.description }}</div>
 
-      </div>
+    </div>
 
   </div>
 </template>
@@ -56,14 +55,15 @@ const updateCommandLst = function (newSuggestions){
 
 defineExpose({
   getListRef,
-  updateCommandLst
+  updateCommandLst,
+  loadMore
 })
 
 </script>
 
 <style scoped>
 .infinite-list {
-  height: 85vh;
+  height: 100%;
   padding: 0;
   margin: 0;
   list-style: none;

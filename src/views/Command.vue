@@ -1,14 +1,30 @@
 <template>
   <div>
-    <commandList
-        ref="cmdlstRef"
-        @onSuggestionClick="onSuggestionClick"
-        v-if="haveInit"></commandList>
 
-    <commandEdit
-    ref="cmdEdtRef"
-    @onTextChanged="onTextChanged"
-    v-if="haveInit"></commandEdit>
+    <el-row>
+      <el-col :span="24">
+
+        <commandList
+            ref="cmdlstRef"
+            @onSuggestionClick="onSuggestionClick"
+            v-if="haveInit"></commandList>
+
+      </el-col>
+    </el-row>
+
+    <el-row style="height: 10%">
+      <el-col :span="24">
+
+        <el-affix position="bottom">
+          <commandEdit
+              ref="cmdEdtRef"
+              @onTextChanged="onTextChanged"
+              v-if="haveInit"></commandEdit>
+        </el-affix>
+
+      </el-col>
+    </el-row>
+
   </div>
 </template>
 
@@ -43,9 +59,8 @@ const loadWasmModule = async function (){
 }
 
 const onTextChanged = function () {
-  console.log(cmdEdtRef.value.getInputData())
   core.onTextChanged(cmdEdtRef.value.getInputData(), cmdEdtRef.value.getInputData().length);
-  if (cmdEdtRef.value.getInputRef().length === 0) {
+  if (cmdEdtRef.value.getInputData().length === 0) {
     coreStore.structure = "欢迎使用CHelper"
     coreStore.description = "作者：Yancey"
     coreStore.errorReason = ""
@@ -55,8 +70,13 @@ const onTextChanged = function () {
     coreStore.errorReason = core.getErrorReason()
   }
   realSuggestionSize.value = core.getSuggestionSize()
-  suggestions.value = []
-  loadMore(Math.floor(cmdlstRef.value.getListRef().clientHeight / 25))
+  console.log(cmdlstRef.value.getListRef().clientHeight)
+  if (cmdEdtRef.value.getInputData()==""){
+    cmdlstRef.value.loadMore()
+  }else {
+    loadMore(Math.floor(cmdlstRef.value.getListRef().clientHeight / 25))
+  }
+
 }
 
 const init = ()=>{
@@ -74,6 +94,7 @@ const onSuggestionClick = function (which) {
 }
 
 const loadMore = function (count) {
+  suggestions.value = []
   const start = suggestions.value.length
   const end = Math.min(start + count, realSuggestionSize.value)
   cmdlstRef.value.updateCommandLst([])

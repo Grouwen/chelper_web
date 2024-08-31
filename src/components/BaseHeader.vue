@@ -1,11 +1,28 @@
 <template>
-  <div>
-    <header>
-      <div class="text-structure custom-font">{{ structure }}</div>
-      <div class="text-description custom-font">{{ description }}</div>
-      <div class="text-error-reason custom-font" v-show="errorReason">{{ errorReason }}</div>
-      <div class="line"/>
-    </header>
+  <div style="background-color: white">
+    <el-row>
+
+      <el-col :span="24"><div class="grid-content ep-bg-purple-dark" />
+        <div class="text-structure custom-font">{{ structure }}</div>
+      </el-col>
+
+    </el-row>
+    <el-row>
+
+      <el-col :span="24"><div class="grid-content ep-bg-purple" />
+        <div class="text-description custom-font">{{ description }}</div>
+      </el-col>
+
+    </el-row>
+    <el-row>
+
+      <el-col :span="24"><div class="grid-content ep-bg-purple" />
+        <div class="text-error-reason custom-font" v-show="errorReason">{{ errorReason }}</div>
+        <div class="line"/>
+      </el-col>
+
+    </el-row>
+
   </div>
 </template>
 

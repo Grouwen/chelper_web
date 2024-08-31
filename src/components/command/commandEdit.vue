@@ -1,11 +1,32 @@
 <template>
   <div>
-    <footer>
-      <button class="button custom-font" @click="openSettings">设置</button>
-      <input ref="inputRef" class="input-box custom-font" placeholder="请输入内容" v-model="input"
-             @input="onTextChanged">
-      <button class="button custom-font" @click="copy">复制</button>
-    </footer>
+<!--    <footer>-->
+<!--      <button class="button custom-font" @click="openSettings">设置</button>-->
+<!--      <input ref="inputRef" class="input-box custom-font" placeholder="请输入内容" v-model="input"-->
+<!--             @input="onTextChanged">-->
+<!--      <button class="button custom-font" @click="copy">复制</button>-->
+<!--    </footer>-->
+    <el-row>
+      <el-col :span="1.5">
+
+        <el-button type="primary" size="large" @click="openSettings">设置</el-button>
+
+      </el-col>
+      <el-col :span="21">
+
+        <el-input v-model="input"
+                  placeholder="请输入内容"
+                  style="height: 100%"
+                  @input="onTextChanged"
+                  ref="inputRef"/>
+
+      </el-col>
+      <el-col :span="1.5">
+
+        <el-button type="primary" size="large" @click="copy">复制</el-button>
+
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -36,6 +57,29 @@ const onTextChanged = function (){
   emit("onTextChanged")
 }
 
+const copy = function (){
+  if (input.value){
+    inputRef.value.select(); // 选中文本
+    document.execCommand('copy');
+    ElMessage({
+      message: '已复制',
+      grouping: true,
+      type: 'success',
+    })
+  }else {
+    ElMessage({
+      message: '复制失败，无内容',
+      grouping: true,
+      type: 'warning',
+    })
+  }
+
+  input.value = ""
+
+  onTextChanged()
+}
+
+
 defineExpose({
   input,
   getInputRef,
@@ -45,16 +89,6 @@ defineExpose({
 </script>
 
 <style scoped>
-.button {
-  padding: 5px;
-  border: 0;
-  width: 50px;
-  height: auto;
-  color: #f5f7fa;
-  text-align: center;
-  background: dodgerblue;
-  border-radius: 5px;
-}
 
 .custom-font {
   font-size: 15px;
@@ -76,14 +110,5 @@ defineExpose({
 
 .input-box:focus {
   outline: 2px solid dodgerblue;
-}
-
-
-footer {
-  display: grid;
-  left: 20px;
-  width: calc(100vw - 10px);
-  margin: 5px 5px 0 5px;
-  grid-template-columns: auto 1fr auto;
 }
 </style>

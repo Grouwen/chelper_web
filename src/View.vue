@@ -1,23 +1,30 @@
 <template>
   <div class="container">
-    <el-row>
-      <el-col :span="24" style="height: 10vh;">
+    <el-affix position="top">
 
-        <BaseHeader></BaseHeader>
+      <el-row style="height: 10%">
+        <el-col :span="24">
 
-      </el-col>
-      <el-col :span="24" style="height: 90vh;">
+            <BaseHeader></BaseHeader>
+
+        </el-col>
+      </el-row>
+
+    </el-affix>
+
+    <el-row style="height: 90%;">
+      <el-col :span="24">
 
         <router-view></router-view>
 
       </el-col>
     </el-row>
+
   </div>
 </template>
 
 <script setup>
 import BaseHeader from "@/components/BaseHeader.vue";
-
 
 </script>
 
